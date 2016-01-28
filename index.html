@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+       <head>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+               <meta charset="utf-8">
+               <title>test</title>
+               
+               <style>
+
+               body{
+                font-family: cambria;
+                background-color: #234567;
+               }
+
+               #container {
+                width: 100%;
+              
+                
+               }
+
+               #board {
+                text-align: center;
+                margin:auto;
+                overflow: hidden;
+                width:65%;
+                
+                
+               }
+               .puzzle {
+                display: inline-block;
+                float: left;
+                width:33.33333%;
+                height:150px;
+              
+                border-style: solid;
+                border-width: 3px;
+                -moz-box-sizing: border-box;
+               }
+
+
+               .covered {
+                background-size: 0 0;
+               
+               }
+
+               .uncovered {
+                background-size: auto;
+                transition: opacity 500 ease-in-out;
+               }
+
+               .hover {
+                opacity: .5;
+               }
+
+               #winner {
+                text-align: center;
+                visibility: hidden;
+               }
+
+               .center {
+                float:none;
+                margin-left: -4px;
+
+               }
+
+               #title {
+                text-align: center;
+                font-size: 4em;
+               }
+
+               p {
+                text-align: center;
+                margin-top: -20px;
+               }
+               </style>
+               
+       </head>
+       <body>
+
+
+        <div id="container">
+          <h1 id="title">NBA Matching Game</h1>
+          <p>Click a box to try and match the images of NBA basketball teams. Match all 4 to win!</p>
+          <div id="winner">
+            <h1>YOU WIN!!!</h3>
+          </div>
+
+          <div id="board">
+            <div class="puzzle covered">
+            </div>
+            <div class="puzzle covered">
+            </div>
+           <div class="puzzle covered">
+            </div>
+            <div class="puzzle covered">
+            </div>
+            <div class="puzzle covered">
+            </div>
+            <div class="puzzle covered">
+            </div>
+            <div class="puzzle covered center">
+            </div>
+            <div class="puzzle covered center">
+            </div>
+            
+            <!--<div class="puzzle covered uncovered warriors">
+            </div>-->
+
+          </div>
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+               <script>
+
+              $(".puzzle").hover(function(){
+                $(this).addClass("hover");
+              }, function(){
+                $(this).removeClass("hover");
+              }); 
+
+              
+
+
+             
+
+                var puzzle = document.getElementsByClassName("puzzle");
+            
+                
+
+                var Deck = function() {
+                  var points = 0;
+                  var array = [];
+                  var teams = ["knicks.jpg", "knicks.jpg", "celtics.jpg", "celtics.jpg", "heat.jpg", "heat.jpg", "spurs.jpg", "spurs.jpg"];
+
+                  
+                  pickPuzzle();
+                  
+                
+                  this.shuffle = function()
+                  {
+
+                    for(var j, x, i = teams.length; i; j = Math.floor(Math.random() * i), x = teams[--i], teams[i] = teams[j], teams[j] = x);
+                     
+
+
+                            
+                  }
+
+                this.setImages = function(){
+                  
+
+                  for(i = 0; i < puzzle.length;i++)
+                  {
+                  
+                   puzzle[i].style.backgroundImage="url(" + teams[i] + ")";
+
+                  }
+
+
+
+
+                }
+
+              
+
+              function pickPuzzle(){
+               $( ".puzzle" ).click(function() {
+                  $(this).addClass("uncovered");
+                  
+                  //console.log("hey2")
+                  deck.checkMatch(this);
+                  
+              });
+                
+              }
+
+
+
+              this.checkMatch = function(image){
+                
+               
+               array.push(image);
+
+               console.log(array);
+               console.log(array[array.length - 1]);
+
+              
+               if(array.length > 1)
+               {
+
+               if(image.style.backgroundImage === array[array.length - 2].style.backgroundImage)
+                {
+                console.log("Correct");
+                array = [];
+                correct();
+                
+                
+                }
+                else{
+                  console.log("wrong");
+                  console.log(array[array.length -1]);
+                  console.log(array[array.length -2]);
+                  incorrect(array[array.length - 1], array[array.length - 2]);
+                  array = [];
+                  }
+
+              
+
+          
+              }
+
+            }
+              function correct(){
+                points +=1;
+
+                if(points === 4){
+                  $("#winner").css("visibility", "visible");
+
+                }
+              }
+
+              function incorrect(img1, img2){
+                $(img1).removeClass("uncovered", "slow");
+                $(img2).removeClass("uncovered", "slow");
+                
+
+              }
+
+          }
+
+             var deck = new Deck();
+             deck.shuffle();
+
+             deck.setImages();
+             deck.pickPuzzle();
+
+
+
+             
+              
+
+  
+
+            
+
+
+
+               </script>
+       </body>
+</html>
+ 
